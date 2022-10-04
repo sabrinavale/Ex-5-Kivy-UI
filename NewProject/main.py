@@ -1,4 +1,5 @@
 import os
+import kivy
 
 #os.environ['DISPLAY'] = ":0.0"
 #os.environ['KIVY_WINDOW'] = 'egl_rpi'
@@ -6,6 +7,7 @@ import os
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.lang import Builder
+from kivy.animation import Animation
 from kivy.uix.screenmanager import ScreenManager, Screen
 
 from pidev.MixPanel import MixPanel
@@ -42,11 +44,25 @@ class ProjectNameGUI(App):
 
 Window.clearcolor = (1, 1, 1, 1)  # White
 
+class NewScreen(Screen):
+    def image(self):
+        SCREEN_MANAGER.current = 'main'
+
+    def animation(self):
+        #anim = Animation(x=50) + Animation(size=(80, 80), duration=2)
+        anim = Animation(x=100, y=100) + Animation(duration=2)
+        anim.start(self)
+
 
 class MainScreen(Screen):
     """
     Class to handle the main screen and its associated touch events
     """
+    def animation(self):
+        #anim = Animation(x=50) + Animation(size=(80, 80), duration=2)
+        anim = Animation(x=100, y=100) + Animation(duration=2)
+        anim.start(self)
+
 
     def pressed(self):
         """
@@ -62,6 +78,31 @@ class MainScreen(Screen):
         :return: None
         """
         SCREEN_MANAGER.current = 'passCode'
+
+    def image(self):
+        SCREEN_MANAGER.current = 'new'
+
+    def text_change(self):
+        if self.ids.test3.active:
+            self.ids.test3.text = "Off"
+            self.ids.test3.active = False
+        else:
+            self.ids.test3.text = "On"
+            self.ids.test3.active = True
+
+    def motor_change(self):
+        if self.ids.motor_label.active:
+            self.ids.motor_label.text = "motor off"
+            self.ids.motor_label.active = False
+        else:
+            self.ids.motor_label.text = "motor on"
+            self.ids.motor_label.active = True
+
+    def increase(self):
+        prior = self.ids.test4.text
+        prior = int(prior)
+        prior += 1
+        self.ids.test4.text = str(prior)
 
 
 class AdminScreen(Screen):
@@ -116,6 +157,7 @@ SCREEN_MANAGER.add_widget(MainScreen(name=MAIN_SCREEN_NAME))
 SCREEN_MANAGER.add_widget(PassCodeScreen(name='passCode'))
 SCREEN_MANAGER.add_widget(PauseScreen(name='pauseScene'))
 SCREEN_MANAGER.add_widget(AdminScreen(name=ADMIN_SCREEN_NAME))
+SCREEN_MANAGER.add_widget(NewScreen(name='new'))
 
 """
 MixPanel

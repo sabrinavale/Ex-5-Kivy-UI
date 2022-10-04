@@ -34,3 +34,97 @@
         bold: True
         outline_width: self.font_size * 0.1
         outline_color: 0, 0, 0
+
+    DPEAButton:
+        id: test3
+        active: True
+        text: "On"
+        size: 100, 100
+        x: root.width * 0.6
+        y: root.height * 0.2
+        color: 0.5, 0.1, 0.8, 1
+        on_press: root.text_change()
+
+    DPEAButton:
+        id: test4
+        text: '0'
+        size: 100, 100
+        x: root.width * 0.7
+        y: root.height * 0.8
+        color: 0.5, 0.1, 0.8, 1
+        on_press: root.increase()
+
+
+    DPEAButton:
+        id: test5
+        text: "motor"
+        size: 100, 100
+        x: root.width * 0.8
+        y: root.height * 0.2
+        color: 0.5, 0.1, 0.8, 1
+        on_press: root.motor_change()
+
+    Label:
+        id: motor_label
+        active: True
+        text: "motor on"
+        size_hint: None, None
+        font_size: 20
+        center_x: root.width * 0.2
+        center_y: root.height * 0.8
+        color: 1, 1, 1, 1
+        bold: True
+        outline_width: self.font_size * 0.1
+        outline_color: 0, 0, 0
+
+    Slider:
+        id: slider
+        min: 0
+        max: 100
+        step: 1
+        orientation: 'vertical'
+        center_x: root.width * 0.1
+        center_y: root.height * 0.5
+
+    Label:
+        text: str(slider.value)
+        size_hint: None, None
+        font_size: 20
+        center_x: root.width * 0.1
+        center_y: root.height * 0.5
+        color: 1, 1, 1, 1
+        bold: True
+        outline_width: self.font_size * 0.1
+        outline_color: 0, 0, 0
+
+    Button:
+        id: img
+        size_hint: None, None
+        size: 200, 200
+        center_x: root.width * 0.4
+        center_y: root.height * 0.2
+        background_normal: 'cutepic.jpg'
+        on_press: root.animation()
+        on_press: root.image()
+
+<NewScreen>:
+    name: 'new'
+
+    Button:
+        id: img
+        size_hint: None, None
+        size: 200, 200
+        center_x: root.width * 0.4
+        center_y: root.height * 0.2
+        background_normal: 'cutepic.jpg'
+        on_press: root.image()
+
+    Button:
+        id: img2
+        size_hint: None, None
+        size: 400, 200
+        center_x: root.width * 0.7
+        center_y: root.height * 0.5
+        background_normal: 'download.png'
+        on_press: root.animation()
+        on_press: root.image()
