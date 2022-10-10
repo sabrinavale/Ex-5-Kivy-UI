@@ -1,5 +1,7 @@
 import os
 import kivy
+import pygame
+pygame.init()
 
 #os.environ['DISPLAY'] = ":0.0"
 #os.environ['KIVY_WINDOW'] = 'egl_rpi'
@@ -13,9 +15,14 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from pidev.MixPanel import MixPanel
 from pidev.kivy.PassCodeScreen import PassCodeScreen
 from pidev.kivy.PauseScreen import PauseScreen
+from kivy.clock import Clock
 from pidev.kivy import DPEAButton
 from pidev.kivy import ImageButton
 from pidev.kivy.selfupdatinglabel import SelfUpdatingLabel
+
+from pidev.Joystick import Joystick
+joy = Joystick(0, True)
+print(joy.get_axis('x'), joy.get_axis('y'))
 
 from datetime import datetime
 
@@ -58,6 +65,20 @@ class MainScreen(Screen):
     """
     Class to handle the main screen and its associated touch events
     """
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        Clock.schedule_interval(self.joystick_update, 0.002)
+    def joystick_update(self, dt):
+        self.ids.axes.x = joy.get_axis('x') * self.width
+        self.ids.axes.y = joy.get_axis('y') * self.height
+        x = self.ids.axes.x
+        y = self.ids.axes.y
+        x = str(x)
+        y = str(y)
+        z = '(' + x + ', ' + y + ')'
+        self.ids.axes.text = z
+
+
     def animation(self):
         #anim = Animation(x=50) + Animation(size=(80, 80), duration=2)
         anim = Animation(x=100, y=100) + Animation(duration=2)
